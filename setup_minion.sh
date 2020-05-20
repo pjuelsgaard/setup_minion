@@ -35,19 +35,6 @@ if ! echo "${MINION_ID}" | grep -Eq '([^\.]*\.){5,}[^\.]*'; then
 fi
 echo "Minion id OK"
 
-# Check master server
-
-until nc -z "${MASTER_SERVER}" 4505; do
-    echo "waiting for master (port 4505)"
-    sleep 1
-done
-
-until nc -z "${MASTER_SERVER}" 4506; do
-    echo "waiting for master (port 4506)"
-    sleep 1
-done
-echo "Master server is up and running"
-
 # Check that we are sudo
 if [[ ${EUID} -ne 0 ]]; then
    echo "This script must be run as root"
