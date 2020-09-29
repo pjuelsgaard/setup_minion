@@ -35,6 +35,15 @@ if ! echo "${MINION_ID}" | grep -Eq '([^\.]*\.){5,}[^\.]*'; then
 fi
 echo "Minion id OK"
 
+OS_DISTRO=$(lsb_release -d | cut -f2 | cut -f1 -d' ')
+if [[ "${OS_DISTRO}" != "Ubuntu" ]]; then
+   echo "This script only supports Ubuntu"
+   exit 1
+fi
+UBUNTU_VERSION=$(lsb_release -r | cut -f2)
+UBUNTU_VERSION_CODENAME=$(lsb_release -c | cut -f2)
+SALT_VERSION=3001
+
 # Check that we are sudo
 if [[ ${EUID} -ne 0 ]]; then
    echo "This script must be run as root"
