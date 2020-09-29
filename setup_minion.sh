@@ -55,10 +55,10 @@ fi
 banner "Installing salt-minion"
 
 # Add repository gpg public key
-wget -O - https://repo.saltstack.com/py3/ubuntu/18.04/amd64/2019.2/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+wget -O - https://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 
 # Add repository to apt sources
-echo "deb http://repo.saltstack.com/py3/ubuntu/18.04/amd64/2019.2 bionic main" > /etc/apt/sources.list.d/saltstack.list
+echo "deb http://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION} ${UBUNTU_VERSION_CODENAME} main" > /etc/apt/sources.list.d/saltstack.list
 
 # Update apt cache
 sudo apt-get update
