@@ -35,6 +35,7 @@ if ! echo "${MINION_ID}" | grep -Eq '([^\.]*\.){5,}[^\.]*'; then
 fi
 echo "Minion id OK"
 
+# Check OS Distro
 OS_DISTRO=$(lsb_release -d | cut -f2 | cut -f1 -d' ')
 if [[ "${OS_DISTRO}" != "Ubuntu" ]]; then
    echo "This script only supports Ubuntu"
@@ -42,7 +43,17 @@ if [[ "${OS_DISTRO}" != "Ubuntu" ]]; then
 fi
 UBUNTU_VERSION=$(lsb_release -r | cut -f2)
 UBUNTU_VERSION_CODENAME=$(lsb_release -c | cut -f2)
-SALT_VERSION=3001
+
+# Determine the Salt version we wish to install
+declare -A SALT_VERSION_MAP
+SALT_VERSION_MAP["20.04"]="3001"
+SALT_VERSION_MAP["18.04"]="2019.2"
+
+SALT_VERSION=${SALT_VERSION_MAP[${UBUNTU_VERSION}]}
+if [[ -z "${SALT_VERSION}" ]]; then
+    echo "Unable to determine Salt Version from Ubuntu Version"
+    exit 1
+fi
 
 # Check that we are sudo
 if [[ ${EUID} -ne 0 ]]; then
