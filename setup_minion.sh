@@ -70,3 +70,17 @@ echo "${MINION_ID}" > /etc/salt/minion_id
 banner "Restarting salt-minion"
 # Restart salt-minion
 sudo systemctl restart salt-minion
+
+# Output pillar data
+echo ""
+echo "${CUT_HERE}"
+echo ""
+
+indent() { sed "s/^/  /"; }
+MINION_IP=$(curl -s ipinfo.io/ip)
+
+echo "${MINION_ID}:"
+echo "public_key: |" | indent
+cat /etc/salt/pki/minion/minion.pub | indent | indent
+echo ""
+echo "ip: ${MINION_IP}" | indent
