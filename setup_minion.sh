@@ -47,7 +47,8 @@ UBUNTU_VERSION_CODENAME=$(lsb_release -c | cut -f2)
 # Determine the Salt version we wish to install
 declare -A SALT_VERSION_MAP
 SALT_VERSION_MAP["20.04"]="3001"
-SALT_VERSION_MAP["18.04"]="2019.2"
+SALT_VERSION_MAP["18.04"]="3001"
+SALT_VERSION_MAP["16.04"]="3001"
 
 SALT_VERSION=${SALT_VERSION_MAP[${UBUNTU_VERSION}]}
 if [[ -z "${SALT_VERSION}" ]]; then
