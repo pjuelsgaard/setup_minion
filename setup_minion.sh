@@ -92,6 +92,13 @@ banner "Restarting salt-minion"
 # Restart salt-minion
 sudo systemctl restart salt-minion
 
+sleep 5
+while [ ! -f /etc/salt/pki/minion/minion.pub ]
+do
+    echo "Waiting for /etc/salt/pki/minion/minion.pub to appear."
+    sleep 10
+done
+
 # Output pillar data
 echo ""
 echo "${CUT_HERE}"
