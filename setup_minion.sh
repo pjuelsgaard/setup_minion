@@ -46,6 +46,7 @@ UBUNTU_VERSION_CODENAME=$(lsb_release -c | cut -f2)
 
 # Determine the Salt version we wish to install
 declare -A SALT_VERSION_MAP
+SALT_VERSION_MAP["22.04"]="3005"
 SALT_VERSION_MAP["20.04"]="3002"
 SALT_VERSION_MAP["18.04"]="3002"
 SALT_VERSION_MAP["16.04"]="3002"
@@ -67,10 +68,15 @@ fi
 banner "Installing salt-minion"
 
 # Add repository gpg public key
-wget -O - https://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+if [[ $SALT_VERSION -eq "3005" ]]; then
+    curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION}/salt-archive-keyring.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION} jammy main" | sudo tee /etc/apt/sources.list.d/salt.list
+else
+    wget -O - https://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 
-# Add repository to apt sources
-echo "deb http://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION} ${UBUNTU_VERSION_CODENAME} main" > /etc/apt/sources.list.d/saltstack.list
+    # Add repository to apt sources
+    echo "deb http://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION} ${UBUNTU_VERSION_CODENAME} main" > /etc/apt/sources.list.d/saltstack.list
+fi
 
 # Update apt cache
 sudo apt-get update
