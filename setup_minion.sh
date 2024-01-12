@@ -65,6 +65,10 @@ fi
 #-----------------------
 banner "Installing salt-minion"
 
+if [[ ${UBUNTU_VERSION} -eq "20.04" ]]; then
+    mkdir -p /etc/apt/keyrings
+fi
+
 # Add repository gpg public key
 sudo curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
 
