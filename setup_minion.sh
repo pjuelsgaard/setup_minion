@@ -65,7 +65,7 @@ fi
 #-----------------------
 banner "Installing salt-minion"
 
-if [[ "${UBUNTU_VERSION}" -eq "20.04" ]]; then
+if [[ "${UBUNTU_VERSION}" == "20.04" ]]; then
     mkdir -p /etc/apt/keyrings
 fi
 
