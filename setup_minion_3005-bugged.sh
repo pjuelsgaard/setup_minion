@@ -69,8 +69,8 @@ banner "Installing salt-minion"
 
 # Add repository gpg public key
 if [[ $SALT_VERSION -eq "3005" ]]; then
-    curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/minor/${SALT_VERSION}.3/salt-archive-keyring.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/minor/${SALT_VERSION}.3 jammy main" | sudo tee /etc/apt/sources.list.d/salt.list
+    curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/minor/${SALT_VERSION}.5/salt-archive-keyring.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/minor/${SALT_VERSION}.5 jammy main" | sudo tee /etc/apt/sources.list.d/salt.list
 else
     wget -O - https://repo.saltstack.com/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 
