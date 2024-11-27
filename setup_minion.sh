@@ -79,7 +79,7 @@ echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.pgp] https://package
 # Pin salt version
 echo "Package: salt-*
 Pin: version ${SALT_VERSION}.*
-Pin-Priority: 1001" > /etc/apt/preferences.dk/salt-pin-1001
+Pin-Priority: 1001" > /etc/apt/preferences.d/salt-pin-1001
 
 # Update apt cache
 sudo apt-get update
