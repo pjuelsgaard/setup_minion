@@ -46,9 +46,9 @@ UBUNTU_VERSION_CODENAME=$(lsb_release -c | cut -f2)
 
 # Determine the Salt version we wish to install
 declare -A SALT_VERSION_MAP
-SALT_VERSION_MAP["24.04"]="3007"
-SALT_VERSION_MAP["22.04"]="3007"
-SALT_VERSION_MAP["20.04"]="3007"
+SALT_VERSION_MAP["24.04"]="3006"
+SALT_VERSION_MAP["22.04"]="3006"
+SALT_VERSION_MAP["20.04"]="3006"
 
 SALT_VERSION=${SALT_VERSION_MAP[${UBUNTU_VERSION}]}
 if [[ -z "${SALT_VERSION}" ]]; then
@@ -66,11 +66,20 @@ fi
 #-----------------------
 banner "Installing salt-minion"
 
-# Add repository gpg public key
-sudo curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/SALT-PROJECT-GPG-PUBKEY-2023.gpg
+# https://docs.saltproject.io/salt/install-guide/en/latest/topics/install-by-operating-system/linux-deb.html
 
-# Add repository to apt sources
-echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=amd64] https://repo.saltproject.io/salt/py3/ubuntu/${UBUNTU_VERSION}/amd64/${SALT_VERSION} ${UBUNTU_VERSION_CODENAME} main" | sudo tee /etc/apt/sources.list.d/salt.list
+# Ensure keyrings dir exists
+mkdir -p /etc/apt/keyrings
+# Download public key
+sudo curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.pgp https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+
+# Create apt repo target configuration
+echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.pgp] https://packages.broadcom.com/artifactory/saltproject-deb stable main" > /etc/apt/sources.list.d/salt.sources
+
+# Pin salt version
+echo "Package: salt-*
+Pin: version ${SALT_VERSION}.*
+Pin-Priority: 1001" > /etc/apt/preferences.dk/salt-pin-1001
 
 # Update apt cache
 sudo apt-get update
