@@ -74,7 +74,7 @@ mkdir -p /etc/apt/keyrings
 sudo curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.pgp https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
 
 # Create apt repo target configuration
-echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring.pgp] https://packages.broadcom.com/artifactory/saltproject-deb stable main" > /etc/apt/sources.list.d/salt.sources
+echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.pgp] https://packages.broadcom.com/artifactory/saltproject-deb stable main" > /etc/apt/sources.list.d/salt.sources
 
 # Pin salt version
 echo "Package: salt-*
